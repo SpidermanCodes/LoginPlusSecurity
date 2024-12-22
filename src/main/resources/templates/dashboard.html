@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to the Dashboard</h1>
+
+    <!-- Section visible to all authenticated users -->
+    <div>
+        <p>Hello, <span th:text="${#authentication.name}">User</span>!</p>
+    </div>
+
+    <!-- Section for Admins only -->
+    <div sec:authorize="hasRole('ADMIN')">
+        <h2>Admin Panel</h2>
+        <p>Only admins can see this content.</p>
+    </div>
+
+    <!-- Section for Users only -->
+    <div sec:authorize="hasRole('USER')">
+        <h2>User Area</h2>
+        <p>This section is for regular users.</p>
+    </div>
+
+    <!-- Section for both Admins and Users -->
+    <div sec:authorize="hasAnyRole('ADMIN', 'USER')">
+        <h2>Common Area</h2>
+        <p>This is visible to both Admins and Users.</p>
+    </div>
+
+    <!-- Logout Link -->
+    <div>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</body>
+</html>
