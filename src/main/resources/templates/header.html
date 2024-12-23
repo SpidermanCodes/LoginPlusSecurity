@@ -8,9 +8,9 @@
         
         <!-- User Info -->
         <div>
-            <span sec:authorize="isAuthenticated()" th:text="${#authentication.name}" style="margin-right: 10px;"></span>
             <a href="/manage" sec:authorize="hasRole('ADMIN')" style="text-decoration: none; margin-right: 10px;">Manage</a>
-            <a href="/logout" style="text-decoration: none;">Logout</a>
+            <span sec:authorize="isAuthenticated()" th:text="${#authentication.name}" style="margin-right: 10px;"></span>
+            <a href="/logout" sec:authorize="isAuthenticated()" style="text-decoration: none;">Logout</a>
         </div>
     </header>
 </html>

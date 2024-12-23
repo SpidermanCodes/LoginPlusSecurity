@@ -16,7 +16,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-    
     @GetMapping("/")
     public String home() {
         return "home";
