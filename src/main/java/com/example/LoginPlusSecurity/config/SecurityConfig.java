@@ -15,15 +15,15 @@ public class SecurityConfig {
         http
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/dashboard").authenticated()
+                //.requestMatchers("/dashboard").authenticated()
                 .requestMatchers("/register", "/login", "/css/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
+                .defaultSuccessUrl("/", true)
                 .permitAll()
             )
             .logout(logout -> logout

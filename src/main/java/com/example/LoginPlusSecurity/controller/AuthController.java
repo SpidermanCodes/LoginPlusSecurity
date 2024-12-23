@@ -16,6 +16,12 @@ public class AuthController {
         this.userService = userService;
     }
 
+    
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
@@ -33,9 +39,10 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
-    }
+    // @GetMapping("/dashboard")
+    // public String dashboard() {
+    //     return "dashboard";
+    // }
+
 
 }
