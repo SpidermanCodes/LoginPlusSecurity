@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home - Blog</title>
 </head>
 <body>
-    <!-- Include Header -->
     <div th:replace="header.html"></div>
-
-    <!-- Page Content -->
-    <div>
-        This is home.
+    <h1>Welcome to the Blog</h1>
+    <!-- Display all blog posts -->
+    <div th:each="blogPost : ${blogPosts}">
+        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+            <h2 th:text="${blogPost.title}"></h2>
+            <p th:text="${blogPost.content}">Content goes here...</p>
+            <p>Author: <span th:text="${blogPost.authorName}"></span></p>
+        </div>
     </div>
+
 </body>
 </html>
