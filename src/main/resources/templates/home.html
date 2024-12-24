@@ -6,14 +6,14 @@
 <body>
     <div th:replace="header.html"></div>
     <h1>Welcome to the Blog</h1>
-    <!-- Display all blog posts -->
+
     <div th:each="blogPost : ${blogPosts}">
         <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
             <h2 th:text="${blogPost.title}"></h2>
-            <p th:text="${blogPost.content}">Content goes here...</p>
+            <p th:text="${blogPost.excerpt}"></p>
             <p>Author: <span th:text="${blogPost.authorName}"></span></p>
+            <a th:href="@{'/blog/' + ${blogPost.slug}}">Read More</a>
         </div>
     </div>
-
 </body>
 </html>

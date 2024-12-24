@@ -24,5 +24,12 @@ public class BlogPost {
     @Column(nullable = false)
     private String authorName;
 
+    @Column(nullable = false, unique = true)
+    private String slug;
+
+    public String getExcerpt() {
+        String[] words = content.split("\\s+");
+        return words.length > 50 ? String.join(" ", java.util.Arrays.copyOf(words, 50)) + "..." : content;
+    }
 
 }
