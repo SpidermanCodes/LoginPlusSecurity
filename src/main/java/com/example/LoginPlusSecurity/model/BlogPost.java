@@ -1,5 +1,9 @@
 package com.example.LoginPlusSecurity.model;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +16,7 @@ import lombok.Data;
 public class BlogPost {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -27,9 +31,12 @@ public class BlogPost {
     @Column(nullable = false, unique = true)
     private String slug;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime creationDate;
+
     public String getExcerpt() {
         String[] words = content.split("\\s+");
         return words.length > 50 ? String.join(" ", java.util.Arrays.copyOf(words, 50)) + "..." : content;
     }
-
 }
