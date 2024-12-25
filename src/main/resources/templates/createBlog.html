@@ -8,12 +8,18 @@
     <form th:action="@{/admin/blog/create}" th:object="${blogPost}" method="post">
         <label for="title">Title:</label>
         <input type="text" id="title" th:field="*{title}" required><br><br>
-
+    
         <label for="content">Content:</label><br>
         <textarea id="content" th:field="*{content}" rows="10" cols="50" required></textarea><br><br>
-
+    
+        <label for="category">Category:</label>
+        <select id="category" th:field="*{category.id}" required>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select><br><br>
+    
         <input type="hidden" th:field="*{authorName}" th:value="${#authentication.name}">
         <button type="submit">Create Blog</button>
     </form>
+    
 </body>
-</html>
+</html> 

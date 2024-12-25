@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.LoginPlusSecurity.model.BlogPost;
+import com.example.LoginPlusSecurity.repository.CategoryRepository;
 import com.example.LoginPlusSecurity.service.BlogPostService;
 
 @Controller
 public class BlogPostController {
 
     private final BlogPostService blogPostService;
+    private final CategoryRepository categoryRepository;
 
-    public BlogPostController(BlogPostService blogPostService) {
+    public BlogPostController(BlogPostService blogPostService, CategoryRepository categoryRepository) {
         this.blogPostService = blogPostService;
+        this.categoryRepository = categoryRepository;
     }
 
     
@@ -52,6 +55,7 @@ public class BlogPostController {
     @GetMapping("/admin/blog/create")
     public String showCreateBlogForm(Model model) {
         model.addAttribute("blogPost", new BlogPost());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "createBlog";
     }
 
