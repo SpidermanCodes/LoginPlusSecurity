@@ -7,13 +7,24 @@
     <div th:replace="header.html"></div>
     <h1>Welcome to the Blog</h1>
 
-    <div th:each="blogPost : ${blogPosts}">
-        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
-            <h2 th:text="${blogPost.title}"></h2>
-            <p th:text="${blogPost.excerpt}"></p>
-            <p>Author: <span th:text="${blogPost.authorName}"></span></p>
-            <a th:href="@{'/blog/' + ${blogPost.slug}}">Read More</a>
+    <div>
+        <div th:each="blogPost : ${blogPosts}">
+            <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+                <h2 th:text="${blogPost.title}"></h2>
+                <p th:text="${blogPost.excerpt}"></p>
+                <p>Author: <span th:text="${blogPost.authorName}"></span></p>
+                <a th:href="@{'/blog/' + ${blogPost.slug}}">Read More</a>
+            </div>
+        </div>
+    
+        <div>
+            <a th:if="${currentPage > 0}" 
+               th:href="${currentPage == 1} ? '/' : '/page/' + (${currentPage - 1})">Previous</a>
+            <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+            <a th:if="${currentPage + 1 < totalPages}" 
+               th:href="'/page/' + (${currentPage + 1})">Next</a>
         </div>
     </div>
+    
 </body>
-</html>
+</html> 

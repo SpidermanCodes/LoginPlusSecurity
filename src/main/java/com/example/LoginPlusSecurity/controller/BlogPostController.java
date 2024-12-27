@@ -2,6 +2,7 @@ package com.example.LoginPlusSecurity.controller;
 
 import java.security.Principal;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,11 +34,33 @@ public class BlogPostController {
     }
 
 
+    // @GetMapping("/")
+    // public String showHomePage(Model model) {
+    //     model.addAttribute("blogPosts", blogPostService.getAllBlogPosts());
+    //     return "home";
+    // }
+
     @GetMapping("/")
     public String showHomePage(Model model) {
-        model.addAttribute("blogPosts", blogPostService.getAllBlogPosts());
+        int page = 0; // Default to the first page
+        int size = 5; // Fixed size
+        Page<BlogPost> blogPosts = blogPostService.getPaginatedBlogPosts(page, size);
+        model.addAttribute("blogPosts", blogPosts.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", blogPosts.getTotalPages());
         return "home";
     }
+    
+    @GetMapping("/page/{pageNumber}")
+    public String showPaginatedHomePage(@PathVariable int pageNumber, Model model) {
+        int size = 5; // Fixed size, 5 blog/page
+        Page<BlogPost> blogPosts = blogPostService.getPaginatedBlogPosts(pageNumber, size);
+        model.addAttribute("blogPosts", blogPosts.getContent());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", blogPosts.getTotalPages());
+        return "home";
+    }
+
 
 
     @GetMapping("/blog/{slug}")

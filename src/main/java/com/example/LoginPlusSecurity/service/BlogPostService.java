@@ -1,7 +1,9 @@
 package com.example.LoginPlusSecurity.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.LoginPlusSecurity.model.BlogPost;
@@ -16,9 +18,15 @@ public class BlogPostService {
         this.blogPostRepository = blogPostRepository;
     }
 
-    public List<BlogPost> getAllBlogPosts() {
-        return blogPostRepository.findAll();
+    // public List<BlogPost> getAllBlogPosts() {
+    //     return blogPostRepository.findAll();
+    // }
+
+    public Page<BlogPost> getPaginatedBlogPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("creationDate").descending());
+        return blogPostRepository.findAll(pageable);
     }
+
 
     public void saveBlogPost(BlogPost blogPost) {
         String slug = generateSlug(blogPost.getTitle());
