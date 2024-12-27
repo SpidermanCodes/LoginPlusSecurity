@@ -34,6 +34,8 @@ public class BlogPostService {
         blogPostRepository.save(blogPost);
     }
 
+    
+
     public BlogPost findBySlug(String slug) {
         return blogPostRepository.findBySlug(slug)
                 .orElseThrow(() -> new RuntimeException("Blog post not found!"));

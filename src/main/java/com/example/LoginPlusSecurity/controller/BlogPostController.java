@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.LoginPlusSecurity.model.BlogPost;
+import com.example.LoginPlusSecurity.repository.BlogPostRepository;
 import com.example.LoginPlusSecurity.repository.CategoryRepository;
 import com.example.LoginPlusSecurity.service.BlogPostService;
 
@@ -21,10 +22,13 @@ public class BlogPostController {
 
     private final BlogPostService blogPostService;
     private final CategoryRepository categoryRepository;
+    private final BlogPostRepository blogPostRepository;
 
-    public BlogPostController(BlogPostService blogPostService, CategoryRepository categoryRepository) {
+
+    public BlogPostController(BlogPostService blogPostService, CategoryRepository categoryRepository, BlogPostRepository blogPostRepository) {
         this.blogPostService = blogPostService;
         this.categoryRepository = categoryRepository;
+        this.blogPostRepository = blogPostRepository;
     }
 
     
@@ -62,17 +66,19 @@ public class BlogPostController {
     }
 
 
-
     @GetMapping("/blog/{slug}")
     public String viewBlogPost(@PathVariable String slug, Model model) {
         try {
             BlogPost blogPost = blogPostService.findBySlug(slug);
+            blogPost.setViews(blogPost.getViews() + 1);
+            blogPostRepository.save(blogPost); // Save updated view count
             model.addAttribute("blogPost", blogPost);
             return "viewBlog";
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());  
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
 
 
     @GetMapping("/admin/blog/create")
