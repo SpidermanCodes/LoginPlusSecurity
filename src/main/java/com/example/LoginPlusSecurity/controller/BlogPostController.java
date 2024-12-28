@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.LoginPlusSecurity.model.BlogPost;
@@ -38,23 +39,35 @@ public class BlogPostController {
     }
 
 
-    // @GetMapping("/")
-    // public String showHomePage(Model model) {
-    //     model.addAttribute("blogPosts", blogPostService.getAllBlogPosts());
-    //     return "home";
-    // }
-
     @GetMapping("/")
-    public String showHomePage(Model model) {
-        int page = 0; // Default to the first page
-        int size = 5; // Fixed size
-        Page<BlogPost> blogPosts = blogPostService.getPaginatedBlogPosts(page, size);
-        model.addAttribute("blogPosts", blogPosts.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", blogPosts.getTotalPages());
-        return "home";
-    }
+        public String showHomePage(@RequestParam(defaultValue = "latest") String filter, 
+                                @RequestParam(defaultValue = "0") int page, 
+                                Model model) {
+            int size = 5; // Number of blog per page
+            Page<BlogPost> blogPosts = blogPostService.getFilteredBlogPosts(page, size, filter);
+            model.addAttribute("blogPosts", blogPosts.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", blogPosts.getTotalPages());
+            model.addAttribute("filter", filter);
+            return "home";
+        }
+
+        @GetMapping("/search")
+        public String searchBlogPosts(@RequestParam("query") String query, 
+                                    @RequestParam(defaultValue = "latest") String filter, 
+                                    @RequestParam(defaultValue = "0") int page, 
+                                    Model model) {
+            int size = 5; // Fixed size
+            Page<BlogPost> blogPosts = blogPostService.searchFilteredBlogPosts(query, page, size, filter);
+            model.addAttribute("blogPosts", blogPosts.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", blogPosts.getTotalPages());
+            model.addAttribute("query", query);
+            model.addAttribute("filter", filter);
+            return "searchResults";
+        }
     
+
     @GetMapping("/page/{pageNumber}")
     public String showPaginatedHomePage(@PathVariable int pageNumber, Model model) {
         int size = 5; // Fixed size, 5 blog/page
@@ -78,7 +91,6 @@ public class BlogPostController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-
 
 
     @GetMapping("/admin/blog/create")

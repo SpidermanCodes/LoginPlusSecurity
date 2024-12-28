@@ -5,7 +5,14 @@
         <div style="font-weight: bold; font-size: 1.5rem;">
             COOLWEBSITE
         </div>
+
+        <!-- Search -->
+        <form action="/search" method="get" style="display: inline;">
+            <input type="text" name="query" placeholder="Search blog posts" />
+            <button type="submit">Search</button>
+        </form>
         
+
         <!-- User Info -->
         <div>
             <a href="/admin/manage" sec:authorize="hasRole('ADMIN')" style="text-decoration: none; margin-right: 10px;">Manage</a>

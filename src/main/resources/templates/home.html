@@ -5,7 +5,17 @@
 </head>
 <body>
     <div th:replace="header.html"></div>
-    <h1>Welcome to the Blog</h1>
+    <h1>Welcome to the Blog</h1>    
+    
+    <form action="/" method="get">
+        <select name="filter" onchange="this.form.submit()">
+            <option value="latest" th:selected="${filter == 'latest'}">Latest</option>
+            <option value="oldest" th:selected="${filter == 'oldest'}">Oldest</option>
+            <option value="views" th:selected="${filter == 'views'}">Most Views</option>
+        </select>
+    </form>
+            
+    
 
     <div>
         <div th:each="blogPost : ${blogPosts}">

@@ -18,9 +18,40 @@ public class BlogPostService {
         this.blogPostRepository = blogPostRepository;
     }
 
-    // public List<BlogPost> getAllBlogPosts() {
-    //     return blogPostRepository.findAll();
-    // }
+
+    public Page<BlogPost> getFilteredBlogPosts(int page, int size, String sortBy) {
+        Sort sort;
+        switch (sortBy) {
+            case "oldest":
+                sort = Sort.by("creationDate").ascending();
+                break;
+            case "views":
+                sort = Sort.by("views").descending();
+                break;
+            default: // latest
+                sort = Sort.by("creationDate").descending();
+        }
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return blogPostRepository.findAll(pageable);
+    }
+
+    public Page<BlogPost> searchFilteredBlogPosts(String query, int page, int size, String sortBy) {
+        Sort sort;
+        switch (sortBy) {
+            case "oldest":
+                sort = Sort.by("creationDate").ascending();
+                break;
+            case "views":
+                sort = Sort.by("views").descending();
+                break;
+            default: // latest blog
+                sort = Sort.by("creationDate").descending();
+        }
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return blogPostRepository.findByTitleContainingIgnoreCase(query, pageable);
+    }
+
+
 
     public Page<BlogPost> getPaginatedBlogPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("creationDate").descending());
@@ -35,11 +66,11 @@ public class BlogPostService {
     }
 
     
-
     public BlogPost findBySlug(String slug) {
         return blogPostRepository.findBySlug(slug)
                 .orElseThrow(() -> new RuntimeException("Blog post not found!"));
     }
+
 
     private String generateSlug(String title) {
         String slug = title.toLowerCase() // Convert to lowercase
@@ -49,5 +80,5 @@ public class BlogPostService {
         return slug.replaceAll("^-|-$", ""); // Remove leading/trailing "-"
     }
 
-
+    
 }
