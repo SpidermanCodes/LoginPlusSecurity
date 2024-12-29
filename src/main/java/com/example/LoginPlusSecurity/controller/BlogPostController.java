@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.LoginPlusSecurity.model.BlogPost;
 import com.example.LoginPlusSecurity.repository.BlogPostRepository;
 import com.example.LoginPlusSecurity.repository.CategoryRepository;
+import com.example.LoginPlusSecurity.repository.CommentRepository;
 import com.example.LoginPlusSecurity.service.BlogPostService;
 
 @Controller
@@ -24,12 +25,14 @@ public class BlogPostController {
     private final BlogPostService blogPostService;
     private final CategoryRepository categoryRepository;
     private final BlogPostRepository blogPostRepository;
+    private final CommentRepository commentRepository;
 
 
-    public BlogPostController(BlogPostService blogPostService, CategoryRepository categoryRepository, BlogPostRepository blogPostRepository) {
+    public BlogPostController(BlogPostService blogPostService, CategoryRepository categoryRepository, BlogPostRepository blogPostRepository, CommentRepository commentRepository) {
         this.blogPostService = blogPostService;
         this.categoryRepository = categoryRepository;
         this.blogPostRepository = blogPostRepository;
+        this.commentRepository = commentRepository;
     }
 
     
@@ -86,6 +89,7 @@ public class BlogPostController {
             blogPost.setViews(blogPost.getViews() + 1);
             blogPostRepository.save(blogPost); // Save updated view count
             model.addAttribute("blogPost", blogPost);
+            model.addAttribute("comments", commentRepository.findByBlogPostId(blogPost.getId()));
             return "viewBlog";
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

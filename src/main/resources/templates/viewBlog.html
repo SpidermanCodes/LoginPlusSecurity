@@ -5,8 +5,23 @@
 </head>
 <body>
     <h1 th:text="${blogPost.title}"></h1>
-    <!-- (Its working) <p>Views: <span th:text="${blogPost.views}"></span></p> -->
     <p th:text="${blogPost.content}"></p>
+    <p>Views: <span th:text="${blogPost.views}"></span></p>
+
+    <h2>Comments</h2>
+    <ul>
+        <li th:each="comment : ${comments}">
+            <strong th:text="${comment.authorName}"></strong>: 
+            <span th:text="${comment.content}"></span>
+        </li>
+    </ul>
+
+    <form th:action="@{/comments/add/{blogId}(blogId=${blogPost.id})}" method="post">
+        <input type="text" name="content" placeholder="Enter your comment" required>
+        <button type="submit">Submit</button>
+    </form>
+    
+
     <a href="/">Back to Home</a>
 </body>
 </html>

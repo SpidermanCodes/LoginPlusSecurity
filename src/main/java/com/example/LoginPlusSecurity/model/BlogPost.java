@@ -45,7 +45,6 @@ public class BlogPost {
     @Column(nullable = false)
     private int views = 0;
 
-
     public String getExcerpt() {
         String[] words = content.split("\\s+");
         return words.length > 50 ? String.join(" ", java.util.Arrays.copyOf(words, 50)) + "..." : content;

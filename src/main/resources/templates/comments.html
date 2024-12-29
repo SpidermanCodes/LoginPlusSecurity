@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Comments</title>
+</head>
+<body>
+    <h2>Comments</h2>
+    <ul id="comments-list">
+        <!-- Comments will be dynamically loaded via JavaScript -->
+    </ul>
+
+    <form id="comment-form" th:action="@{/comments/add/{blogId}(blogId=${blogPost.id})}" method="post">
+        <input type="text" name="content" placeholder="Enter your comment" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
