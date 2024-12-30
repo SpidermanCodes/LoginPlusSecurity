@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1 th:text="${blogPost.title}"></h1>
-    <p th:text="${blogPost.content}"></p>
+    <p th:utext="${blogPost.content}"></p>
     <p>Views: <span th:text="${blogPost.views}"></span></p>
 
     <h2>Comments</h2>

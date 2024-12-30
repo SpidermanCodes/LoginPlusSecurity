@@ -23,7 +23,7 @@
                 <h2 th:text="${blogPost.title}"></h2>
                 <p>Author: <span th:text="${blogPost.authorName}"></span></p>
                 <!-- (Its working) <p>Views: <span th:text="${blogPost.views}"></span></p> -->
-                <p th:text="${blogPost.excerpt}"></p>
+                <p th:utext="${blogPost.excerpt}"></p>
                 <a th:href="@{'/blog/' + ${blogPost.slug}}">Read More</a>
             </div>
         </div>
